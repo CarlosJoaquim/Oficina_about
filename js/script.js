@@ -651,10 +651,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (widthElement) {
-            widthElement.textContent = `Largura: ${measures.displayWidth}`;
+            widthElement.textContent = `Comprimento: ${measures.displayWidth}`;
         }
         if (heightElement) {
-            heightElement.textContent = `Altura: ${measures.displayHeight}`;
+            heightElement.textContent = `Largura: ${measures.displayHeight}`;
             heightElement.style.display = 'block';
         }
         if (shapeElement) {
