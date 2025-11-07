@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina da Fampa - Controle de Encomendas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 30px;
+            border-bottom: 2px solid #e74c3c;
+        }
+
+        .company-info {
+            text-align: center;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .company-subtitle {
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-pdf {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            border-color: #219a52;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+            border-color: #e67e22;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 11px;
+            background: white;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 11px;
+        }
+
+        .orders-table th {
+            background: #34495e;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #2c3e50;
+            font-size: 11px;
+        }
+
+        .orders-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .client-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .delivery-date {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .priority-urgent {
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .priority-soon {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .priority-normal {
+            background: white;
+        }
+
+        .priority-no-date {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .items-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .items-list li {
+            padding: 2px 0;
+            border-bottom: 1px dotted #eee;
+            line-height: 1.3;
+        }
+
+        .items-list li:last-child {
+            border-bottom: none;
+        }
+
+        .status-select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .status-select:hover {
+            border-color: #3498db;
+        }
+
+        .status-pendente {
+            background: #ffeaa7;
+            color: #856404;
+        }
+
+        .status-processo {
+            background: #74b9ff;
+            color: white;
+        }
+
+        .status-concluido {
+            background: #55efc4;
+            color: #00b894;
+        }
+
+        .status-select option {
+            padding: 8px;
+        }
+
+        .table-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .footer {
+            background: #ecf0f1;
+            padding: 15px 30px;
+            text-align: center;
+            border-top: 1px solid #bdc3c7;
+        }
+
+        .footer-text {
+            color: #7f8c8d;
+            font-size: 11px;
+        }
+
+        .print-status {
+            display: none;
+        }
+
+        .search-box {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 11px;
+            width: 200px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: #27ae60;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+            
+            .btn, .status-select, .filters, .search-box {
+                display: none;
+            }
+            
+            .print-status {
+                display: block;
+                padding: 4px 8px;
+                border-radius: 2px;
+                font-size: 10px;
+                text-align: center;
+            }
+            
+            .summary-card {
+                border: 1px solid #000;
+            }
+            
+            .orders-table {
+                border: 1px solid #000;
+            }
+            
+            .orders-table th,
+            .orders-table td {
+                border: 1px solid #000;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .orders-table {
+                font-size: 10px;
+            }
+            
+            .status-select {
+                font-size: 9px;
+                padding: 4px;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-box {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="company-info">
+                <div class="company-name">OFICINA DA FAMPA</div>
+                <div class="company-subtitle">CONTROLE DE ENCOMENDAS - SISTEMA COMPLETO</div>
+                <div class="controls">
+                    <button class="btn" onclick="window.print()">🖨️ IMPRIMIR</button>
+                    <button class="btn btn-pdf" onclick="exportToPDF()">📄 EXPORTAR PDF</button>
+                    <button class="btn btn-success" onclick="saveStatus()">💾 SALVAR STATUS</button>
+                    <button class="btn btn-warning" onclick="resetStatus()">🔄 RESTAURAR PADRÃO</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="summary">
+                <div class="summary-card">
+                    <div class="summary-value" id="totalOrders">0</div>
+                    <div class="summary-label">Total de Encomendas</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="pendentes">0</div>
+                    <div class="summary-label">Pendentes</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="processo">0</div>
+                    <div class="summary-label">Em Processo</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" id="concluidos">0</div>
+                    <div class="summary-label">Concluídos</div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <input type="text" class="search-box" id="searchInput" placeholder="🔍 Pesquisar cliente ou item..." onkeyup="filterOrders()">
+                <select class="filter-select" id="statusFilter" onchange="filterOrders()">
+                    <option value="all">Todos os Status</option>
+                    <option value="pendente">Pendentes</option>
+                    <option value="processo">Em Processo</option>
+                    <option value="concluido">Concluídos</option>
+                </select>
+                <select class="filter-select" id="priorityFilter" onchange="filterOrders()">
+                    <option value="all">Todas as Prioridades</option>
+                    <option value="urgent">Urgentes</option>
+                    <option value="soon">Próximos</option>
+                    <option value="normal">Normais</option>
+                    <option value="no-date">Sem Data</option>
+                </select>
+                <select class="filter-select" id="dateFilter" onchange="filterOrders()">
+                    <option value="all">Todas as Datas</option>
+                    <option value="this-week">Esta Semana</option>
+                    <option value="next-week">Próxima Semana</option>
+                    <option value="this-month">Este Mês</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th width="18%">CLIENTE</th>
+                            <th width="10%">DATA ENTREGA</th>
+                            <th width="10%">PRIORIDADE</th>
+                            <th width="47%">ITENS DA ENCOMENDA</th>
+                            <th width="15%">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Dados serão inseridos via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                Oficina da Fampa • Sistema de Controle de Encomendas • 
+                Emitido em <span id="currentDate"></span> • 
+                <span id="totalFiltered">0</span> encomendas listadas
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados completos das encomendas
+        let orders = [
+            {
+                id: 1,
+                client: "Sra Yonara Vinhas",
+                deliveryDate: "2025-11-08",
+                priority: "soon",
+                status: "pendente",
+                items: [
+                    "Toalha de mesa granité 10 lugares (Outro tecido)",
+                    "10 lugares Conjunto Laços Dourados"
+                ]
+            },
+            {
+                id: 2,
+                client: "Sra Valquíria Prata",
+                deliveryDate: "",
+                priority: "normal",
+                status: "processo",
+                items: [
+                    "12 lugares Toile de jouy bordeux",
+                    "16 laços bordô em veludo (4 escritos Diane Daiane Délcio Valquíria)",
+                    "1 caminho de mesa off white com linha vermelha"
+                ]
+            },
+            {
+                id: 3,
+                client: "Sra. Filipa Teixeira Lago",
+                deliveryDate: "2025-11-14",
+                priority: "soon",
+                status: "pendente",
+                items: [
+                    "Toalha rectangular 6 lugares algodão biológico com guardanapos",
+                    "6 lugares algodão biológico com bordado de natal"
+                ]
+            },
+            {
+                id: 4,
+                client: "Dra Branca do Espírito Santo",
+                deliveryDate: "2025-11-08",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "9 Vestido - Uniforme / Avental com Renda algodão"
+                ]
+            },
+            {
+                id: 5,
+                client: "Sra. Franscisca Cajada",
+                deliveryDate: "",
+                priority: "no-date",
+                status: "concluido",
+                items: [
+                    "Caminho de Mesa 6 lugares",
+                    "8 lugares Conjunto limone",
+                    "Conjunto 8 Bases tropical (Sem guardanapos)"
+                ]
+            },
+            {
+                id: 6,
+                client: "Sra. Silvana",
+                deliveryDate: "2025-11-12",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "Vestido de noite com renda"
+                ]
+            },
+            {
+                id: 7,
+                client: "Sra. Bernadeth",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "Roupão de bebê com capuz",
+                    "Babete com bordado",
+                    "Pasta de Documento de bebê",
+                    "Toalha de banho algodão",
+                    "Vestido de linho"
+                ]
+            },
+            {
+                id: 8,
+                client: "Evelise Azevedo",
+                deliveryDate: "2025-11-05",
+                priority: "urgent",
+                status: "processo",
+                items: [
+                    "Uniformes Feminino - 4 tamanho S",
+                    "Uniformes Feminino - 4 tamanho M",
+                    "24 Guardanapos em tecido canvas de algodão"
+                ]
+            },
+            {
+                id: 9,
+                client: "Sra Carina Lopes",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "Guardanapos em linho branco com bordado das flores"
+                ]
+            },
+            {
+                id: 10,
+                client: "Maride",
+                deliveryDate: "2025-11-11",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "Cobre-Leito Pérolas - Tamanho Cama King",
+                    "8 guardanapos em linho"
+                ]
+            },
+            {
+                id: 11,
+                client: "Sra Tita Guerra",
+                deliveryDate: "2025-11-13",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "Lugares de orquídea rosa (2 unidades)",
+                    "Toalha de banho com bordado (2 unidades)",
+                    "Toalha gigante de algodão (2 unidades)",
+                    "Toalhas de Rosto com Bordado (2 unidades)",
+                    "Toalha de Mão com bordado coroa (2 unidades)",
+                    "Toalha 6 lugares Jacquard verde com guardanapos",
+                    "12 lugares rosa (faltam 4)",
+                    "Caminho de Mesa bege com franja 6 lugares",
+                    "8 bases rebordo toile de jouy bordô com guardanapos",
+                    "Caminho mesa 6 lugares natal com bordado bege",
+                    "Aparelho jantar porcelana bohemia"
+                ]
+            },
+            {
+                id: 12,
+                client: "Sra Bernadeth e Sra Lemos",
+                deliveryDate: "2025-11-12",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "Toalha de bebê de banho",
+                    "Pasta de documento do bebê",
+                    "Babete",
+                    "Roupão de capuz",
+                    "Fato safari senhora Lemos (CONCLUÍDO)",
+                    "Vestido Senhora Bernadeth (CONCLUÍDO)"
+                ]
+            },
+            {
+                id: 13,
+                client: "Sra Leonor Binga",
+                deliveryDate: "2025-11-10",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "Toalha de rosto com bordado Natal",
+                    "Toalha de mão com bordado Natal",
+                    "Capa papel higiênico com bordado Natal"
+                ]
+            },
+            {
+                id: 14,
+                client: "Sra. Carla Duarte",
+                deliveryDate: "2025-11-14",
+                priority: "soon",
+                status: "pendente",
+                items: [
+                    "Uniforme feminino - Calça, jaleca e touca (2 un. M)"
+                ]
+            },
+            {
+                id: 15,
+                client: "INSTITUTO SUPERVISAO JOGOS (Sra. Palmira)",
+                deliveryDate: "",
+                priority: "no-date",
+                status: "pendente",
+                items: [
+                    "Serviço de Chá porcelana 12 lugares",
+                    "Conjunto talheres prime 32 Lugares",
+                    "Aparelho jantar porcelana bordas dourado"
+                ]
+            },
+            {
+                id: 16,
+                client: "Sra. Aurora Viegas",
+                deliveryDate: "2026-02-02",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "2 Uniformes Femininos Tamanho G Modelo 01",
+                    "2 Uniformes Femininos Tamanho M Modelo 02",
+                    "2 Uniformes Femininos Tamanho G Modelo 02"
+                ]
+            },
+            {
+                id: 17,
+                client: "Sra. Nerethz Tati",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "Toalha bege 4 lugares quadrada algodão biológico",
+                    "4 Lugares bege algodão biológico"
+                ]
+            },
+            {
+                id: 18,
+                client: "Sr. Eugenio",
+                deliveryDate: "2025-11-18",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "2 Fatos Safari"
+                ]
+            },
+            {
+                id: 19,
+                client: "Domingas Mariano",
+                deliveryDate: "",
+                priority: "normal",
+                status: "processo",
+                items: [
+                    "6 laços bordô em veludo com bordado de nomes"
+                ]
+            },
+            {
+                id: 20,
+                client: "Sra Clementina Cassiala",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "4 babetes em linho com árvore Natal verde",
+                    "Nomes: Kiala, Tutizema, Tita, Kiala Jr"
+                ]
+            },
+            {
+                id: 21,
+                client: "Sra Rosianne Pávia",
+                deliveryDate: "2025-11-14",
+                priority: "soon",
+                status: "processo",
+                items: [
+                    "6 lugares linho e renda"
+                ]
+            },
+            {
+                id: 22,
+                client: "GARRAFEIRA DO PATRIOTA 3 - COMERCIO GERAL, LDA (Stela)",
+                deliveryDate: "2025-11-12",
+                priority: "soon",
+                status: "pendente",
+                items: [
+                    "2 Toalha de rosto com bordado",
+                    "2 Toalha de Banho com bordado"
+                ]
+            },
+            // NOVAS ENCOMENDAS PENDENTES
+            {
+                id: 23,
+                client: "Sra Carina Lopes",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "4 bases do tecido rosa com flores",
+                    "10 guardanapos adicionais",
+                    "2 bases de orquídea no tecido linho areia",
+                    "2 guardanapos de orquídea no tecido linho areia"
+                ]
+            },
+            {
+                id: 24,
+                client: "Sra Tita",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "4 guardanapos no tecido Toily de jouy"
+                ]
+            },
+            {
+                id: 25,
+                client: "Sra Cajada",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "8 guardanapos de limone no tecido linho branco"
+                ]
+            },
+            {
+                id: 26,
+                client: "Sra Bernadeth e Sra Lemos",
+                deliveryDate: "",
+                priority: "normal",
+                status: "pendente",
+                items: [
+                    "Roupão com capuz",
+                    "Babete com bordado",
+                    "Pasta de documentos de bebê",
+                    "Toalha de banho algodão"
+                ]
+            }
+        ];
+
+        let filteredOrders = [...orders];
+
+        // Função para mostrar notificação
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification show';
+            
+            if (type === 'error') {
+                notification.style.background = '#e74c3c';
+            } else {
+                notification.style.background = '#27ae60';
+            }
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+
+        // Carregar status salvos do localStorage
+        function loadSavedStatus() {
+            const savedStatus = localStorage.getItem('oficina-fampa-status');
+            if (savedStatus) {
+                const savedOrders = JSON.parse(savedStatus);
+                orders = orders.map(order => {
+                    const savedOrder = savedOrders.find(so => so.id === order.id);
+                    return savedOrder ? { ...order, status: savedOrder.status } : order;
+                });
+                filteredOrders = [...orders];
+            }
+        }
+
+        // Salvar status no localStorage
+        function saveStatus() {
+            localStorage.setItem('oficina-fampa-status', JSON.stringify(orders));
+            showNotification('Status salvos com sucesso!');
+            renderTable();
+        }
+
+        // Restaurar status padrão
+        function resetStatus() {
+            if (confirm('Tem certeza que deseja restaurar os status padrão? Isso irá perder todas as alterações.')) {
+                localStorage.removeItem('oficina-fampa-status');
+                location.reload();
+            }
+        }
+
+        // Filtrar encomendas
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredOrders = orders.filter(order => {
+                // Filtro por status
+                if (statusFilter !== 'all' && order.status !== statusFilter) {
+                    return false;
+                }
+
+                // Filtro por prioridade
+                if (priorityFilter !== 'all' && order.priority !== priorityFilter) {
+                    return false;
+                }
+
+                // Filtro por data
+                if (dateFilter !== 'all') {
+                    if (!order.deliveryDate) {
+                        if (dateFilter !== 'no-date') return false;
+                    } else {
+                        const delivery = new Date(order.deliveryDate);
+                        const today = new Date();
+                        
+                        switch(dateFilter) {
+                            case 'this-week':
+                                const startOfWeek = new Date(today);
+                                startOfWeek.setDate(today.getDate() - today.getDay());
+                                const endOfWeek = new Date(startOfWeek);
+                                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                                if (delivery < startOfWeek || delivery > endOfWeek) return false;
+                                break;
+                            case 'next-week':
+                                const nextWeekStart = new Date(today);
+                                nextWeekStart.setDate(today.getDate() + (7 - today.getDay()));
+                                const nextWeekEnd = new Date(nextWeekStart);
+                                nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
+                                if (delivery < nextWeekStart || delivery > nextWeekEnd) return false;
+                                break;
+                            case 'this-month':
+                                if (delivery.getMonth() !== today.getMonth() || delivery.getFullYear() !== today.getFullYear()) return false;
+                                break;
+                        }
+                    }
+                }
+
+                // Filtro por pesquisa
+                if (searchTerm) {
+                    const clientMatch = order.client.toLowerCase().includes(searchTerm);
+                    const itemsMatch = order.items.some(item => item.toLowerCase().includes(searchTerm));
+                    if (!clientMatch && !itemsMatch) return false;
+                }
+
+                return true;
+            });
+
+            renderTable();
+        }
+
+        // Função para formatar data
+        function formatDate(dateString) {
+            if (!dateString) return "A DEFINIR";
+            const date = new Date(dateString);
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            
+            // Verificar se é hoje
+            if (date.toDateString() === today.toDateString()) {
+                return "HOJE";
+            }
+            
+            // Verificar se é amanhã
+            if (date.toDateString() === tomorrow.toDateString()) {
+                return "AMANHÃ";
+            }
+            
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Função para determinar classe de prioridade
+        function getPriorityClass(priority) {
+            const classMap = {
+                'urgent': 'priority-urgent',
+                'soon': 'priority-soon',
+                'normal': 'priority-normal',
+                'no-date': 'priority-no-date'
+            };
+            return classMap[priority] || 'priority-normal';
+        }
+
+        // Função para obter texto da prioridade
+        function getPriorityText(priority) {
+            const textMap = {
+                'urgent': 'URGENTE',
+                'soon': 'PRÓXIMO',
+                'normal': 'NORMAL',
+                'no-date': 'SEM DATA'
+            };
+            return textMap[priority] || priority;
+        }
+
+        // Função para obter texto do status
+        function getStatusText(status) {
+            const statusMap = {
+                'pendente': 'PENDENTE',
+                'processo': 'EM PROCESSO',
+                'concluido': 'CONCLUÍDO'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Função para obter classe do status
+        function getStatusClass(status) {
+            const classMap = {
+                'pendente': 'status-pendente',
+                'processo': 'status-processo',
+                'concluido': 'status-concluido'
+            };
+            return classMap[status] || '';
+        }
+
+        // Função para atualizar status
+        function updateStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                showNotification(`Status atualizado para ${getStatusText(newStatus)}`);
+            }
+        }
+
+        // Função para renderizar tabela
+        function renderTable() {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = '';
+            
+            filteredOrders.forEach(order => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td class="client-name">${order.client}</td>
+                    <td class="delivery-date">${formatDate(order.deliveryDate)}</td>
+                    <td>
+                        <div class="priority-badge ${getPriorityClass(order.priority)}">
+                            ${getPriorityText(order.priority)}
+                        </div>
+                    </td>
+                    <td>
+                        <ul class="items-list">
+                            ${order.items.map(item => `<li>• ${item}</li>`).join('')}
+                        </ul>
+                    </td>
+                    <td>
+                        <select class="status-select ${getStatusClass(order.status)}" 
+                                onchange="updateStatus(${order.id}, this.value)" 
+                                data-order-id="${order.id}">
+                            <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>PENDENTE</option>
+                            <option value="processo" ${order.status === 'processo' ? 'selected' : ''}>EM PROCESSO</option>
+                            <option value="concluido" ${order.status === 'concluido' ? 'selected' : ''}>CONCLUÍDO</option>
+                        </select>
+                        <div class="print-status ${getStatusClass(order.status)}">
+                            ${getStatusText(order.status)}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            updateSummary();
+            updateCurrentDate();
+        }
+
+        // Função para atualizar resumo
+        function updateSummary() {
+            const pendentes = orders.filter(order => order.status === 'pendente').length;
+            const processo = orders.filter(order => order.status === 'processo').length;
+            const concluidos = orders.filter(order => order.status === 'concluido').length;
+            const urgentes = orders.filter(order => order.priority === 'urgent').length;
+
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('pendentes').textContent = pendentes;
+            document.getElementById('processo').textContent = processo;
+            document.getElementById('concluidos').textContent = concluidos;
+            document.getElementById('urgentes').textContent = urgentes;
+            document.getElementById('totalFiltered').textContent = filteredOrders.length;
+        }
+
+        // Função para atualizar data atual
+        function updateCurrentDate() {
+            const now = new Date();
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('pt-BR') + ' às ' + 
+                now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        // Função para exportar PDF
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            // Cabeçalho
+            doc.setFontSize(16);
+            doc.setTextColor(44, 62, 80);
+            doc.text('OFICINA DA FAMPA', 105, 15, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text('RELATÓRIO COMPLETO DE ENCOMENDAS', 105, 22, { align: 'center' });
+            
+            // Data de emissão
+            doc.setFontSize(10);
+            doc.text(`Emitido em: ${new Date().toLocaleDateString('pt-BR')}`, 105, 28, { align: 'center' });
+            
+            // Resumo
+            doc.setFontSize(10);
+            doc.text(`Total: ${orders.length} encomendas | Pendentes: ${orders.filter(o => o.status === 'pendente').length} | Em Processo: ${orders.filter(o => o.status === 'processo').length} | Concluídos: ${orders.filter(o => o.status === 'concluido').length}`, 105, 34, { align: 'center' });
+            
+            let yPosition = 45;
+            
+            filteredOrders.forEach((order, index) => {
+                // Quebra de página se necessário
+                if (yPosition > 270) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                // Cliente e data
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text(`${order.client}`, 15, yPosition);
+                doc.setFont(undefined, 'normal');
+                doc.text(`${formatDate(order.deliveryDate)}`, 180, yPosition, { align: 'right' });
+                
+                yPosition += 6;
+                
+                // Prioridade e Status
+                doc.setFontSize(10);
+                doc.text(`Prioridade: ${getPriorityText(order.priority)}`, 15, yPosition);
+                doc.text(`Status: ${getStatusText(order.status)}`, 100, yPosition);
+                
+                yPosition += 5;
+                
+                // Itens
+                doc.text('Itens:', 15, yPosition);
+                yPosition += 4;
+                
+                order.items.forEach(item => {
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    
+                    doc.text(`• ${item}`, 20, yPosition);
+                    yPosition += 4;
+                });
+                
+                yPosition += 6;
+                
+                // Linha separadora
+                if (index < filteredOrders.length - 1) {
+                    doc.setDrawColor(200, 200, 200);
+                    doc.line(15, yPosition, 195, yPosition);
+                    yPosition += 3;
+                }
+            });
+            
+            doc.save(`oficina-da-fampa-encomendas-${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedStatus();
+            renderTable();
+        });
+    </script>
+</body>
+</html>
