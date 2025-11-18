@@ -87,64 +87,20 @@
             <div class="container">
                 <h2 class="section-title">Nossos Catálogos</h2>
                 <p class="section-subtitle">Explore nossa variedade de produtos</p>
-                <div class="catalogos-grid">
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-tshirt"></i>
+                
+                <!-- Novo card para abrir modal de catálogos -->
+                <div class="catalogos-modal-trigger">
+                    <div class="modal-trigger-card clickable-card" data-target="modal-catalogos">
+                        <div class="modal-trigger-icon">
+                            <i class="fas fa-book-open"></i>
                         </div>
-                        <h3>Catálogo Principal</h3>
-                        <p>Nossa coleção completa de produtos</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/site/index.html" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-flag"></i>
-                        </div>
-                        <h3>BFA</h3>
-                        <p>Produtos relacionados ao BFA</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/BFA/" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <h3>Natal 2025</h3>
-                        <p>Coleção especial de Natal</p>
-                        <a href="https://catalogo-natal2025.vercel.app/" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <h3>Louça</h3>
-                        <p>Produtos de louça e mesa</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/lou%C3%A7a/index.html" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-place-of-worship"></i>
-                        </div>
-                        <h3>Jogos Americanos</h3>
-                        <p>Jogos americanos e acessórios de mesa</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/Cat%C3%A1logo_de_Produtos_loja/index.html" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-female"></i>
-                        </div>
-                        <h3>Uniforme Feminino</h3>
-                        <p>Uniformes femininos profissionais</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/catalogo_feminino/index.html" target="_blank" class="btn btn-small">Acessar</a>
-                    </div>
-                    <div class="catalogo-card">
-                        <div class="catalogo-icon">
-                            <i class="fas fa-cut"></i>
-                        </div>
-                        <h3>Salão de Beleza</h3>
-                        <p>Produtos para salão de beleza</p>
-                        <a href="https://catalogooficinadafampa.vercel.app/salao/index.html" target="_blank" class="btn btn-small">Acessar</a>
+                        <h3>Ver Todos os Catálogos</h3>
+                        <p>Clique aqui para visualizar todos os nossos catálogos disponíveis</p>
+                        <span class="click-hint">Clique para abrir a lista completa</span>
                     </div>
                 </div>
+                
+              
             </div>
         </section>
 
@@ -189,86 +145,88 @@
             </div>
         </section>
 
-       
-       
-<!-- Produtos 3D Section -->
-<section id="produtos" class="section">
-    <div class="container">
-        <h2 class="section-title">Nossos Produtos em 3D</h2>
-        <p class="section-subtitle">Visualize as medidas e interaja com nossos produtos</p>
-        
-        <div class="products-3d-container">
-            <div class="product-selector">
-                <button class="product-btn active" data-product="guardanapo">
-                    <i class="fas fa-square"></i>
-                    Guardanapo
-                </button>
-                <button class="product-btn" data-product="base-mesa">
-                    <i class="fas fa-square"></i>
-                    Base de Mesa
-                </button>
-                <button class="product-btn" data-product="toalha-retangular">
-                    <i class="fas fa-border-all"></i>
-                    Toalha Retangular
-                </button>
-            </div>
-            
-            <div class="product-viewer">
-                <div id="product-viewer-3d" class="product-3d-viewer">
-                    <div class="loading-3d">
-                        <div class="spinner"></div>
-                        <p>Carregando modelo 3D...</p>
+        <!-- Produtos 3D Section -->
+        <section id="produtos" class="section">
+            <div class="container">
+                <h2 class="section-title">Nossos Produtos em 3D</h2>
+                <p class="section-subtitle">Visualize as medidas e interaja com nossos produtos</p>
+                
+                <div class="products-3d-container">
+                    <div class="product-selector">
+                        <button class="product-btn active" data-product="guardanapo">
+                            <i class="fas fa-square"></i>
+                            Guardanapo
+                        </button>
+                        <button class="product-btn" data-product="base-mesa">
+                            <i class="fas fa-square"></i>
+                            Base de Mesa
+                        </button>
+                        <button class="product-btn" data-product="toalha-retangular">
+                            <i class="fas fa-border-all"></i>
+                            Toalha Retangular
+                        </button>
+                        <button class="product-btn" data-product="toalha-quadrada">
+                            <i class="fas fa-square-full"></i>
+                            Toalha Quadrada
+                        </button>
                     </div>
-                    <div class="measure-overlay">
-                        <div class="measure-line horizontal" id="measure-horizontal">
-                            <span class="measure-value">40 cm</span>
-                        </div>
-                        <div class="measure-line vertical" id="measure-vertical">
-                            <span class="measure-value">40 cm</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <h3 id="product-name">Guardanapo</h3>
-                    <div class="measure-details">
-                        <div class="measure-item">
-                            <i class="fas fa-ruler-horizontal"></i>
-                            <span> <strong id="measure-width">40 cm</strong></span>
-                        </div>
-                        <div class="measure-item">
-                            <i class="fas fa-ruler-vertical"></i>
-                            <span><strong id="measure-height">40 cm</strong></span>
-                        </div>
-                        <div class="measure-item">
-                            <i class="fas fa-vector-square"></i>
-                            <span>Formato: <strong id="measure-shape">Quadrado</strong></span>
-                        </div>
-                        <div class="measure-item">
-                            <i class="fas fa-chair"></i>
-                            <span>Lugares: <strong id="measure-places">1 lugar</strong></span>
-                        </div>
-                    </div>
-                    <p id="product-description" class="product-desc">Guardanapo de alta qualidade em algodão, perfeito para complementar seu jogo americano.</p>
                     
-                    <div class="product-controls">
-                        <button id="reset-view" class="control-btn">
-                            <i class="fas fa-sync-alt"></i>
-                            Resetar Vista
-                        </button>
-                        <button id="auto-rotate" class="control-btn active">
-                            <i class="fas fa-redo"></i>
-                            Rotação Auto
-                        </button>
-                        <button id="toggle-measures" class="control-btn active">
-                            <i class="fas fa-ruler-combined"></i>
-                            Medidas
-                        </button>
+                    <div class="product-viewer">
+                        <div id="product-viewer-3d" class="product-3d-viewer">
+                            <div class="loading-3d">
+                                <div class="spinner"></div>
+                                <p>Carregando modelo 3D...</p>
+                            </div>
+                            <div class="measure-overlay">
+                                <div class="measure-line horizontal" id="measure-horizontal">
+                                    <span class="measure-value">40 cm</span>
+                                </div>
+                                <div class="measure-line vertical" id="measure-vertical">
+                                    <span class="measure-value">40 cm</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 id="product-name">Guardanapo</h3>
+                            <div class="measure-details">
+                                <div class="measure-item">
+                                    <i class="fas fa-ruler-horizontal"></i>
+                                    <span> <strong id="measure-width">40 cm</strong></span>
+                                </div>
+                                <div class="measure-item">
+                                    <i class="fas fa-ruler-vertical"></i>
+                                    <span><strong id="measure-height">40 cm</strong></span>
+                                </div>
+                                <div class="measure-item">
+                                    <i class="fas fa-vector-square"></i>
+                                    <span>Formato: <strong id="measure-shape">Quadrado</strong></span>
+                                </div>
+                                <div class="measure-item">
+                                    <i class="fas fa-chair"></i>
+                                    <span>Lugares: <strong id="measure-places">1 lugar</strong></span>
+                                </div>
+                            </div>
+                            <p id="product-description" class="product-desc">Guardanapo de alta qualidade em algodão, perfeito para complementar seu jogo americano.</p>
+                            
+                            <div class="product-controls">
+                                <button id="reset-view" class="control-btn">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Resetar Vista
+                                </button>
+                                <button id="auto-rotate" class="control-btn active">
+                                    <i class="fas fa-redo"></i>
+                                    Rotação Auto
+                                </button>
+                                <button id="toggle-measures" class="control-btn active">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    Medidas
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
         <!-- Calculadora Section -->
         <section id="calculadora" class="section section-highlight">
@@ -282,6 +240,7 @@
                             <select id="product-type" class="form-control">
                                 <option value="jogo-americano">Jogo Americano (Base + Guardanapo)</option>
                                 <option value="toalha-mesa">Toalha de Mesa</option>
+                                <option value="toalha-quadrada">Toalha Quadrada</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -324,111 +283,74 @@
                     </div>
                     <div class="faq-content">
                         <div class="faq-category-content active" id="produtos">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-produtos1">
                                 <div class="faq-question">
                                     <h3>Como posso ver os preços dos produtos?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Para ver os preços dos nossos produtos, acesse nossos catálogos online através dos links disponíveis na seção "Catálogos". Lá você encontrará todos os produtos com seus respectivos preços.</p>
-                                </div>
                             </div>
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-produtos2">
                                 <div class="faq-question">
                                     <h3>As cores dos produtos são exatamente como nas fotos?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>As cores podem variar ligeiramente devido a fatores como o dispositivo usado para visualizar, condições de iluminação no local da foto e configurações de tela. Recomendamos que visite nossa loja pessoalmente para ter uma percepção mais real das cores.</p>
-                                </div>
                             </div>
                         </div>
                         <div class="faq-category-content" id="jogos-americanos">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-jogos1">
                                 <div class="faq-question">
                                     <h3>Quais são as medidas padrão dos jogos americanos?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Nossas medidas padrão são:</p>
-                                    <ul>
-                                        <li>Guardanapos: 40x40 cm</li>
-                                        <li>Bases de Mesa: 47x37 cm</li>
-                                    </ul>
-                                    <p>O preço normalmente é por lugar (Base + Guardanapo). Para calcular o valor total, multiplique o preço unitário pela quantidade de lugares necessários.</p>
-                                </div>
                             </div>
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-jogos2">
                                 <div class="faq-question">
                                     <h3>Como calcular o preço dos jogos americanos?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Utilize nossa calculadora de preços disponível na seção "Calculadora". Basta informar o preço unitário do jogo americano e a quantidade de lugares que você precisa. O sistema calculará automaticamente o valor total em Kwanza.</p>
-                                </div>
                             </div>
                         </div>
                         <div class="faq-category-content" id="toalhas">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-toalhas1">
                                 <div class="faq-question">
                                     <h3>Quais são as medidas das toalhas de mesa?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Nossas toalhas de mesa têm as seguintes medidas padrão:</p>
-                                    <ul>
-                                        <li>Toalha de mesa de 6 lugares rectangular: 250x190 cm</li>
-                                        <li>Toalha de Mesa rectangular de 8 lugares: 310x190 cm</li>
-                                        <li>Toalha de Mesa de 12 lugares rectangular: 330x190 cm</li>
-                                    </ul>
-                                    <p>Antes de encomendar, informe a medida da sua mesa e o formato (rectangular, redonda ou oval).</p>
+                            </div>
+                            <div class="faq-item clickable-card" data-target="modal-faq-toalhas2">
+                                <div class="faq-question">
+                                    <h3>Como escolher o tamanho correto da toalha?</h3>
+                                    <i class="fas fa-chevron-down"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="faq-category-content" id="encomendas">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-encomendas1">
                                 <div class="faq-question">
                                     <h3>Como fazer uma encomenda?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Para fazer uma encomenda, entre em contato conosco através do WhatsApp. Seja específico: informe o produto de interesse, envie imagens e a quantidade desejada para um atendimento organizado e eficiente.</p>
-                                </div>
                             </div>
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-encomendas2">
                                 <div class="faq-question">
                                     <h3>É possível fazer encomendas urgentes?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Sim, oferecemos serviço de urgência com custo adicional. Entre em contato para saber mais sobre prazos e valores.</p>
-                                </div>
                             </div>
                         </div>
                         <div class="faq-category-content" id="entregas">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-entregas1">
                                 <div class="faq-question">
                                     <h3>Como funcionam as entregas?</h3>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
-                                <div class="faq-answer">
-                                    <p>Fazemos entregas com taxa adicional que varia dependendo do local. Informe o local de entrega para que possamos calcular o valor da taxa.</p>
-                                </div>
                             </div>
                         </div>
                         <div class="faq-category-content" id="reclamacoes">
-                            <div class="faq-item">
+                            <div class="faq-item clickable-card" data-target="modal-faq-reclamacoes1">
                                 <div class="faq-question">
                                     <h3>O que fazer se receber um produto danificado?</h3>
                                     <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="faq-answer">
-                                    <p>Se receber um produto danificado, entre em contato imediatamente através dos nossos números de WhatsApp:</p>
-                                    <ul>
-                                        <li>938 534 066 - Prioridade máxima</li>
-                                        <li>931 575 486</li>
-                                    </ul>
-                                    <p>O cliente tem até 1 semana para fazer a reclamação após o recebimento do produto.</p>
                                 </div>
                             </div>
                         </div>
@@ -570,6 +492,157 @@
     </footer>
 
     <!-- Modals -->
+    <!-- Modal Catálogos -->
+    <div id="modal-catalogos" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Nossos Catálogos</h2>
+            <div class="catalogos-list">
+                <div class="catalogo-list-item">
+                    <h3>Catálogo Principal</h3>
+                    <p>Nossa coleção completa de produtos</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/site/index.html" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>BFA</h3>
+                    <p>Produtos relacionados ao BFA</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/BFA/" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>Natal 2025</h3>
+                    <p>Coleção especial de Natal</p>
+                    <a href="https://catalogo-natal2025.vercel.app/" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>Louça</h3>
+                    <p>Produtos de louça e mesa</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/lou%C3%A7a/index.html" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>Jogos Americanos</h3>
+                    <p>Jogos americanos e acessórios de mesa</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/Cat%C3%A1logo_de_Produtos_loja/index.html" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>Uniforme Feminino</h3>
+                    <p>Uniformes femininos profissionais</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/catalogo_feminino/index.html" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+                <div class="catalogo-list-item">
+                    <h3>Salão de Beleza</h3>
+                    <p>Produtos para salão de beleza</p>
+                    <a href="https://catalogooficinadafampa.vercel.app/salao/index.html" target="_blank" class="btn btn-small">Acessar Catálogo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals FAQ -->
+    <div id="modal-faq-produtos1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Como posso ver os preços dos produtos?</h2>
+            <p>Para ver os preços dos nossos produtos, acesse nossos catálogos online através dos links disponíveis na seção "Catálogos". Lá encontrará todos os produtos com seus respectivos preços atualizados.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-produtos2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>As cores dos produtos são exatamente como nas fotos?</h2>
+            <p>As cores podem variar ligeiramente devido a fatores como o dispositivo usado para visualizar, condições de iluminação no local da foto e configurações de tela. Recomendamos que visite nossa loja pessoalmente para ter uma perceção mais real das cores.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-jogos1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Quais são as medidas padrão dos jogos americanos?</h2>
+            <p>Nossas medidas padrão são:</p>
+            <ul>
+                <li>Guardanapos: 40x40 cm</li>
+                <li>Bases de Mesa: 47x37 cm</li>
+            </ul>
+            <p>O preço normalmente é por lugar (Base + Guardanapo). Para calcular o valor total, multiplique o preço unitário pela quantidade de lugares necessários.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-jogos2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Como calcular o preço dos jogos americanos?</h2>
+            <p>Utilize nossa calculadora de preços disponível na seção "Calculadora". Basta informar o preço unitário do jogo americano e a quantidade de lugares que precisa. O sistema calculará automaticamente o valor total em Kwanza.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-toalhas1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Quais são as medidas das toalhas de mesa?</h2>
+            <p>Nossas toalhas de mesa têm as seguintes medidas padrão:</p>
+            <ul>
+                <li>Toalha de mesa rectangular de 6 lugares: 250x190 cm</li>
+                <li>Toalha de Mesa rectangular de 8 lugares: 310x190 cm</li>
+                <li>Toalha de Mesa rectangular de 12 lugares: 350x190 cm</li>
+                <li>Toalha Quadrada de 6 lugares: 210x210 cm</li>
+                <li>Toalha Quadrada de 8 lugares: 220x220 cm</li>
+            </ul>
+            <p>Antes de encomendar, informe a medida da sua mesa e o formato (rectangular, redonda ou oval).</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-toalhas2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Como escolher o tamanho correto da toalha?</h2>
+            <p>Para escolher o tamanho correto:</p>
+            <ol>
+                <li>Meça o comprimento e largura da sua mesa</li>
+                <li>Adicione 30-40 cm de cada lado para a caída</li>
+                <li>Para mesas redondas, meça o diâmetro e adicione 30-40 cm</li>
+                <li>Consulte-nos para orientação personalizada</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="modal-faq-encomendas1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Como fazer uma encomenda?</h2>
+            <p>Para fazer uma encomenda, entre em contacto connosco através do WhatsApp. Seja específico: informe o produto de interesse, envie imagens e a quantidade desejada para um atendimento organizado e eficiente.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-encomendas2" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>É possível fazer encomendas urgentes?</h2>
+            <p>Sim, oferecemos serviço de urgência com custo adicional. Entre em contacto para saber mais sobre prazos e valores.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-entregas1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Como funcionam as entregas?</h2>
+            <p>Fazemos entregas com taxa adicional que varia dependendo do local. Informe o local de entrega para que possamos calcular o valor da taxa.</p>
+        </div>
+    </div>
+
+    <div id="modal-faq-reclamacoes1" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>O que fazer se receber um produto danificado?</h2>
+            <p>Se receber um produto danificado, entre em contacto imediatamente através dos nossos números de WhatsApp:</p>
+            <ul>
+                <li>938 534 066 - Prioridade máxima</li>
+                <li>931 575 486</li>
+            </ul>
+            <p>O cliente tem até 1 semana para fazer a reclamação após o recebimento do produto.</p>
+        </div>
+    </div>
+
+    <!-- Existing Modals (keep the ones you already have) -->
     <div id="modal-cores" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -577,11 +650,11 @@
             <p>Para questões de escolher um determinado produto pelo catálogo remotamente, leve em consideração que as cores de alguns produtos podem ser ligeiramente diferentes da imagem.</p>
             <p>Muitos fatores podem influenciar nas questões de tonalidade como:</p>
             <ul>
-                <li>O aparelho que está sendo usado para fotografar</li>
+                <li>O aparelho que está a ser usado para fotografar</li>
                 <li>A luminosidade no local</li>
                 <li>As configurações de tela do dispositivo</li>
             </ul>
-            <p>Aconselhamos que visite pessoalmente nossa loja para escolher melhor e ter uma percepção real da cor que está levando.</p>
+            <p>Aconselhamos que visite pessoalmente nossa loja para escolher melhor e ter uma perceção real da cor que está a levar.</p>
         </div>
     </div>
 
@@ -593,9 +666,10 @@
             <ul>
                 <li>A medida exata da sua mesa</li>
                 <li>O formato (rectangular, redonda ou oval)</li>
+                <li>O comprimento da caída desejada</li>
             </ul>
             <p>Com essas informações, poderemos orientá-lo sobre o tamanho ideal de toalha para sua mesa e garantir que ficará perfeita.</p>
-            <p>Para toalhas personalizadas, podemos confeccionar sob medida conforme suas necessidades específicas.</p>
+            <p>Para toalhas personalizadas, podemos confecionar sob medida conforme suas necessidades específicas.</p>
         </div>
     </div>
 
@@ -619,12 +693,12 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2>Encomendas Urgentes</h2>
-            <p>Oferecemos serviço de confecção com urgência para clientes que necessitam de prazos reduzidos.</p>
+            <p>Oferecemos serviço de confeção com urgência para clientes que necessitam de prazos reduzidos.</p>
             <p>Para encomendas urgentes:</p>
             <ul>
                 <li>O prazo de entrega é significativamente reduzido</li>
                 <li>Há um custo adicional pelo serviço de urgência</li>
-                <li>Entre em contato para saber valores e disponibilidade</li>
+                <li>Entre em contacto para saber valores e disponibilidade</li>
             </ul>
             <p>Recomendamos que planeje suas encomendas com antecedência sempre que possível para evitar custos adicionais.</p>
         </div>
